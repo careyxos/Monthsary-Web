@@ -1,5 +1,5 @@
 .vscode/
-dev_server.ps1
+*.ps1
 *.tmp
 .DS_Store
 Thumbs.db
