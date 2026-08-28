@@ -1,0 +1,511 @@
+/* Base + hearts + gallery fallbacks + surprise */
+
+:root {
+  --sky: #87ceeb;
+  --pink: #ffb6c1;
+}
+
+#view-monthsary {
+  background: linear-gradient(165deg, rgba(135, 206, 235, 0.22) 0%, #fff 38%, rgba(255, 182, 193, 0.2) 100%);
+  border-radius: 1.75rem;
+}
+
+/* Floating hearts */
+.hearts-layer .heart {
+  position: absolute;
+  font-size: clamp(14px, 3.5vw, 22px);
+  opacity: 0.35;
+  animation: drift 14s linear infinite;
+  will-change: transform, opacity;
+}
+
+.hearts-layer .heart.sky {
+  color: var(--sky);
+  text-shadow: 0 0 12px rgba(135, 206, 235, 0.5);
+}
+
+.hearts-layer .heart.pink {
+  color: var(--pink);
+  text-shadow: 0 0 12px rgba(255, 182, 193, 0.6);
+}
+
+@keyframes drift {
+  0% {
+    transform: translateY(110vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.4;
+  }
+  92% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateY(-15vh) translateX(25px) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+/* Gallery placeholders when image missing */
+.gallery-cell {
+  position: relative;
+  background: linear-gradient(135deg, rgba(135, 206, 235, 0.25), rgba(255, 182, 193, 0.25));
+}
+
+.gallery-img.is-placeholder {
+  object-fit: contain;
+  padding: 2rem;
+  opacity: 0.5;
+}
+
+.gallery-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  pointer-events: none;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #fff;
+  background: linear-gradient(transparent, rgba(30, 41, 59, 0.55));
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.gallery-cell:hover .gallery-caption,
+.gallery-cell:focus-within .gallery-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Confetti layer */
+.confetti-piece {
+  position: fixed;
+  z-index: 200;
+  pointer-events: none;
+  font-size: 1.25rem;
+  animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) rotate(var(--rot));
+    opacity: 0;
+  }
+}
+
+.surprise-hidden:focus-visible {
+  opacity: 0.5;
+  outline: 2px solid var(--pink);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Footer teaser button + modal peonies */
+.teaser-surprise-wrap {
+  position: relative;
+}
+
+.teaser-surprise-btn {
+  position: relative;
+}
+
+.teaser-btn-peony {
+  position: absolute;
+  z-index: 0;
+  width: 2.35rem;
+  height: 2.05rem;
+  opacity: 0.88;
+  filter: drop-shadow(0 2px 4px rgba(190, 24, 93, 0.12));
+  animation: teaser-peony-wiggle 3.2s ease-in-out infinite;
+}
+
+.teaser-btn-peony--left {
+  left: -0.35rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(-8deg);
+  animation-delay: 0s;
+}
+
+.teaser-btn-peony--right {
+  right: -0.35rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(8deg);
+  animation: teaser-peony-wiggle-r 3.2s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+
+@keyframes teaser-peony-wiggle {
+  0%,
+  100% {
+    transform: translateY(-50%) rotate(-8deg);
+  }
+  50% {
+    transform: translateY(calc(-50% - 2px)) rotate(-4deg);
+  }
+}
+
+@keyframes teaser-peony-wiggle-r {
+  0%,
+  100% {
+    transform: translateY(-50%) rotate(8deg);
+  }
+  50% {
+    transform: translateY(calc(-50% - 2px)) rotate(4deg);
+  }
+}
+
+.teaser-modal-peonies {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.teaser-modal-peony {
+  position: absolute;
+  width: 3.25rem;
+  height: auto;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.teaser-modal-peony--tl {
+  left: -0.25rem;
+  top: -0.25rem;
+  transform: rotate(-12deg);
+}
+
+.teaser-modal-peony--br {
+  right: -0.35rem;
+  bottom: -0.15rem;
+  transform: rotate(14deg);
+}
+
+#teaser-modal-card > #teaser-modal-message,
+#teaser-modal-card > #teaser-modal-close {
+  position: relative;
+  z-index: 1;
+}
+
+body.teaser-modal-open {
+  overflow: hidden;
+}
+
+/* Music player shell + peony sprigs */
+.music-player-shell {
+  overflow: visible;
+}
+
+.music-player-peonies {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.peony-sprig {
+  position: absolute;
+  width: clamp(4.5rem, 22vw, 5.75rem);
+  height: auto;
+  filter: drop-shadow(0 4px 10px rgba(190, 24, 93, 0.12));
+  animation: peony-float 5s ease-in-out infinite;
+}
+
+.peony-sprig--left {
+  left: clamp(-0.75rem, -2vw, -0.25rem);
+  top: clamp(-2.25rem, -6vw, -1.5rem);
+  animation-delay: 0s;
+}
+
+.peony-sprig--right {
+  right: clamp(-0.5rem, -1.5vw, 0);
+  top: clamp(-1.75rem, -5vw, -1rem);
+  animation: peony-float-mirror 5s ease-in-out infinite 1.1s;
+}
+
+@keyframes peony-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes peony-float-mirror {
+  0%,
+  100% {
+    transform: scaleX(-1) translateY(0);
+  }
+  50% {
+    transform: scaleX(-1) translateY(-4px);
+  }
+}
+
+/* Gallery lightbox — horizontal swipe */
+body.gallery-lightbox-open {
+  overflow: hidden;
+}
+
+.gallery-lightbox-scroller {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pinch-zoom;
+  scrollbar-width: none;
+  outline: none;
+}
+
+.gallery-lightbox-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-lightbox-slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  min-height: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.75rem 0.75rem;
+  box-sizing: border-box;
+}
+
+.gallery-lightbox-img {
+  max-width: 100%;
+  max-height: min(78vh, 820px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.gallery-lightbox-img.is-placeholder {
+  max-height: 40vh;
+  padding: 2rem;
+  object-fit: contain;
+}
+
+.gallery-lightbox-dots {
+  max-width: 100%;
+}
+
+.gallery-lightbox-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  border: 0;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s, width 0.2s;
+}
+
+.gallery-lightbox-dot.is-active {
+  background: #ffb6c1;
+  width: 1.25rem;
+  transform: translateY(-1px);
+}
+
+.gallery-lightbox-dot:focus-visible {
+  outline: 2px solid #ffb6c1;
+  outline-offset: 2px;
+}
+
+.gallery-lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  transform: translateY(-50%);
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.gallery-lightbox-arrow:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.gallery-lightbox-arrow--prev {
+  left: max(0.5rem, env(safe-area-inset-left));
+}
+
+.gallery-lightbox-arrow--next {
+  right: max(0.5rem, env(safe-area-inset-right));
+}
+
+/* Tiny peonies inside music player border */
+.music-player-inner-flowers {
+  border-radius: inherit;
+}
+
+.mini-peony {
+  position: absolute;
+  width: 1.15rem;
+  height: 1.15rem;
+  opacity: 0.55;
+  filter: drop-shadow(0 2px 3px rgba(190, 24, 93, 0.14));
+  animation: mini-peony-pulse 4.2s ease-in-out infinite;
+}
+
+.mini-peony--1 {
+  top: 0.4rem;
+  left: 0.35rem;
+  transform: rotate(-14deg);
+  animation-delay: 0s;
+}
+
+.mini-peony--2 {
+  top: 0.35rem;
+  right: 2.25rem;
+  width: 1rem;
+  height: 1rem;
+  transform: rotate(10deg);
+  opacity: 0.5;
+  animation-delay: 0.6s;
+}
+
+.mini-peony--3 {
+  top: 50%;
+  right: 0.3rem;
+  transform: translateY(-50%) rotate(18deg);
+  width: 0.9rem;
+  height: 0.9rem;
+  opacity: 0.46;
+  animation-delay: 1.2s;
+}
+
+.mini-peony--4 {
+  bottom: 0.45rem;
+  left: 0.4rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  transform: rotate(-8deg);
+  opacity: 0.52;
+  animation-delay: 0.3s;
+}
+
+.mini-peony--5 {
+  bottom: 0.35rem;
+  right: 0.35rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  transform: rotate(22deg);
+  opacity: 0.5;
+  animation-delay: 0.9s;
+}
+
+.mini-peony--6 {
+  bottom: 1.35rem;
+  left: 42%;
+  width: 0.9rem;
+  height: 0.9rem;
+  transform: translateX(-50%) rotate(-20deg);
+  opacity: 0.42;
+  animation-delay: 1.5s;
+}
+
+.mini-peony--7 {
+  top: 0.55rem;
+  left: 38%;
+  width: 0.9rem;
+  height: 0.9rem;
+  transform: translateX(-50%) rotate(6deg);
+  opacity: 0.42;
+  animation-delay: 2s;
+}
+
+/* Extra mini peonies for a fuller look */
+.mini-peony--8 {
+  top: 0.55rem;
+  right: 0.65rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  transform: rotate(-18deg);
+  opacity: 0.46;
+  animation-delay: 1.1s;
+}
+
+.mini-peony--9 {
+  bottom: 0.65rem;
+  right: 2.35rem;
+  width: 0.95rem;
+  height: 0.95rem;
+  transform: rotate(10deg);
+  opacity: 0.44;
+  animation-delay: 0.2s;
+}
+
+.mini-peony--10 {
+  top: 56%;
+  left: 0.35rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  transform: translateY(-50%) rotate(22deg);
+  opacity: 0.4;
+  animation-delay: 1.7s;
+}
+
+.mini-peony--11 {
+  bottom: 1.65rem;
+  right: 0.75rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  transform: rotate(-8deg);
+  opacity: 0.38;
+  animation-delay: 2.3s;
+}
+
+.mini-peony--12 {
+  top: 0.8rem;
+  left: 1.65rem;
+  width: 0.78rem;
+  height: 0.78rem;
+  transform: rotate(-28deg);
+  opacity: 0.36;
+  animation-delay: 0.8s;
+}
+
+@keyframes mini-peony-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
